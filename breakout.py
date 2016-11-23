@@ -27,7 +27,7 @@ CLOCK = pg.time.Clock()
 class Player(pg.sprite.Sprite):
     def __init__(self):
         pg.sprite.Sprite.__init__(self)
-        self.image = pg.Surface((70, 35))
+        self.image = pg.Surface((60, 25))
         self.image.fill(BLUE)
         self.rect = self.image.get_rect()
         self.rect.center = (WIDTH / 2, HEIGHT - 20)
@@ -48,7 +48,7 @@ class Player(pg.sprite.Sprite):
 class Brick(pg.sprite.Sprite):
     def __init__(self, x, y, color):
         pg.sprite.Sprite.__init__(self)
-        self.image = pg.Surface((50, 50))
+        self.image = pg.Surface((50, 20))
         self.image.fill(color)
         self.rect = self.image.get_rect()
         self.rect.center = (x, y)
@@ -57,7 +57,7 @@ class Brick(pg.sprite.Sprite):
 class Ball(pg.sprite.Sprite):
     def __init__(self):
         pg.sprite.Sprite.__init__(self)
-        self.image = pg.Surface((25, 25))
+        self.image = pg.Surface((10, 10))
         self.image.fill(BLACK)
         self.rect = self.image.get_rect()
         self.rect.center = (WIDTH / 2, HEIGHT / 2)
@@ -78,7 +78,10 @@ class Ball(pg.sprite.Sprite):
         if pg.sprite.collide_rect(self, player):
             self.speedy *= -1
 
-        if self.rect.y > 600 or self.rect.y < 0:
+        if self.rect.y < 0:
+            self.speedy *= -1
+
+        if self.rect.y > 600:
             self.rect.x = 400
             self.rect.y = 300
             self.speedy *= -1
@@ -92,7 +95,7 @@ brick_sprites = pg.sprite.Group()
 
 
 for i in range(16):
-    brick = Brick(i * 50, 95, color=color_list[random.randint(0, 3)])
+    brick = Brick((i * 50) + 10, 95, color=color_list[random.randint(0, 3)])
     brick_sprites.add(brick)
 
 player = Player()
@@ -102,8 +105,8 @@ ball_sprite = pg.sprite.Group()
 all_sprites.add(player)
 ball_sprite.add(ball)
 
-score_font = pg.font.Font("vgafix.fon", 50)
-score_text = score_font.render("Score: " + str(ball.score), 0, (50, 50, 25))
+main_font = pg.font.Font("vgafix.fon", 50)
+score_text = main_font.render("Score: " + str(ball.score), 0, (50, 50, 25))
 
 game_loop = True
 while game_loop:
@@ -118,7 +121,7 @@ while game_loop:
     all_sprites.update()
     brick_sprites.update()
     ball_sprite.update()
-    score_text = score_font.render("Score: " + str(ball.score), 0, (50, 50, 25))
+    score_text = main_font.render("Score: " + str(ball.score), 0, (50, 50, 25))
 
     SCREEN.fill(GREEN)
     all_sprites.draw(SCREEN)
