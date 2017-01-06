@@ -9,12 +9,3 @@ class Brick(pg.sprite.Sprite):
         self.image.set_colorkey(constants.WHITE)
         self.rect = self.image.get_rect()
         self.rect.center = (x, y)
-
-
-class ExplosiveBrick(Brick):
-    def __init__(self, x, y, img_path):
-        Brick.__init__(self)
-        self.image = pg.image.load(constants.RED_DIR).convert()
-        self.image.set_colorkey(constants.WHITE)
-        self.rect = self.image.get_rect()
-        self.rect.center = (x, y)

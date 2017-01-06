@@ -9,8 +9,8 @@ class Ball(pg.sprite.Sprite):
         self.image.set_colorkey(constants.WHITE)
         self.rect = self.image.get_rect()
         self.rect.center = (constants.WIDTH / 2, constants.HEIGHT / 2)
-        self.speedx = 3
-        self.speedy = 3
+        self.speedx = 5
+        self.speedy = 5
         self.score = 0
 
         self.player = player
@@ -38,4 +38,7 @@ class Ball(pg.sprite.Sprite):
     def check_bricks(self):
         if pg.sprite.spritecollide(self, constants.brick_sprites, True, collided=None):
             self.speedy *= -1
-            self.score += 1
+
+        if pg.sprite.spritecollide(self, constants.laser_bricks, True, collided=None):
+            self.speedy *= -1
+            self.player.can_shoot = True

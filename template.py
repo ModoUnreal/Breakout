@@ -1,3 +1,8 @@
+"""TODO:
+    * Make level which is 5x12
+    * Make power up which makes 3 balls appear"""
+
+
 import sys
 import pygame as pg
 import constants
@@ -147,6 +152,8 @@ class Gameplay(GameState):
         self.ball = ball.Ball(self.player)
         self.all_sprites = constants.all_sprites
         self.brick_sprites = constants.brick_sprites
+        self.laser_bricks = constants.laser_bricks
+        self.bullet_sprites = constants.bullet_sprites
         self.all_sprites.add(self.player)
         self.all_sprites.add(self.ball)
         self.level_1()
@@ -163,17 +170,25 @@ class Gameplay(GameState):
     def update(self, dt):
         self.all_sprites.update()
         self.brick_sprites.update()
+        self.laser_bricks.update()
+        self.bullet_sprites.update()
 
     def draw(self, surface):
         surface.fill(self.screen_color)
         self.all_sprites.draw(screen)
         self.brick_sprites.draw(screen)
+        self.laser_bricks.draw(screen)
+        self.bullet_sprites.draw(screen)
 
     def level_1(self):
         for r in range(3):
             for i in range(20):
                 brick_img = brick.Brick((i * 64) + 10, (r * 32 + 20), img_path=constants.BLUE_DIR)
                 self.brick_sprites.add(brick_img)
+
+        for i in range(3):
+            las_img = brick.Brick((i * 64)+10, (constants.HEIGHT/2)-230, img_path=constants.RED_DIR)
+            self.laser_bricks.add(las_img)
 
 if __name__ == "__main__":
     pg.init()

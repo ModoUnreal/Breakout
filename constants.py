@@ -11,6 +11,7 @@ SCREEN = pg.display.set_mode((WIDTH, HEIGHT))
 WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
 RED = (255, 0, 0)
+ORANGE = (255, 165, 0)
 GREEN = (0, 255, 0)
 BLUE = (0, 0, 255)
 
@@ -29,3 +30,6 @@ BALL_DIR = os.path.join("images", "ball.png")
 """SPRITE LISTS"""
 all_sprites = pg.sprite.Group()
 brick_sprites = pg.sprite.Group()
+laser_bricks = pg.sprite.Group()
+bullet_sprites = pg.sprite.Group()
+# Bullet_sprites is found inside the player.py file
