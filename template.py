@@ -1,5 +1,4 @@
 """TODO:
-    * Make level which is 5x12
     * Make power up which makes 3 balls appear"""
 
 
@@ -129,7 +128,7 @@ class SplashScreen(GameState):
     def __init__(self):
         super(SplashScreen, self).__init__()
         self.main_font = pg.font.Font("vgafix.fon", 50)
-        self.title_text = self.main_font.render("Breakout", 0, (50, 50, 25))
+        self.title_text = self.main_font.render("Breakout", 0, (255, 0, 0))
         self.persist["screen_color"] = constants.BLACK
         self.next_state = "GAMEPLAY"
 
@@ -142,7 +141,7 @@ class SplashScreen(GameState):
 
     def draw(self, surface):
         surface.fill(constants.BLUE)
-        surface.blit(self.title_text, (5, 10))
+        surface.blit(self.title_text, (250, 250))
 
 
 class Gameplay(GameState):
@@ -150,6 +149,12 @@ class Gameplay(GameState):
         super(Gameplay, self).__init__()
         self.player = player.Player()
         self.ball = ball.Ball(self.player)
+
+        self.main_font = pg.font.Font("vgafix.fon", 100)
+        self.GO_font = pg.font.Font("PLAYBILL.ttf", 150)
+        self.lives_text = self.main_font.render("Lives: " + str(self.player.lives), 0, (0, 0, 255))
+        self.game_over_text = self.GO_font.render("You kind of suck", 0, (255, 0, 0))
+
         self.all_sprites = constants.all_sprites
         self.brick_sprites = constants.brick_sprites
         self.laser_bricks = constants.laser_bricks
@@ -157,6 +162,8 @@ class Gameplay(GameState):
         self.all_sprites.add(self.player)
         self.all_sprites.add(self.ball)
         self.level_1()
+        if not self.brick_sprites:
+            self.level_2()
 
     def startup(self, persistent):
         self.persist = persistent
@@ -173,23 +180,35 @@ class Gameplay(GameState):
         self.laser_bricks.update()
         self.bullet_sprites.update()
 
+        self.lives_text = self.main_font.render("Lives:  " + str(self.player.lives), 0, (0, 0, 255))
+
     def draw(self, surface):
         surface.fill(self.screen_color)
         self.all_sprites.draw(screen)
         self.brick_sprites.draw(screen)
         self.laser_bricks.draw(screen)
         self.bullet_sprites.draw(screen)
+        surface.blit(self.lives_text, (5, 10))
+        if self.player.game_over == True:
+            self.ball.kill()
+            self.player.kill()
+            surface.blit(self.game_over_text, (200, 300))
 
     def level_1(self):
         for r in range(3):
-            for i in range(20):
+            for i in range(13):
                 brick_img = brick.Brick((i * 64) + 10, (r * 32 + 20), img_path=constants.BLUE_DIR)
                 self.brick_sprites.add(brick_img)
 
         for i in range(3):
-            las_img = brick.Brick((i * 64)+10, (constants.HEIGHT/2)-230, img_path=constants.RED_DIR)
+            las_img = brick.Brick((i * 64)+10, (constants.HEIGHT/2)-180, img_path=constants.RED_DIR)
             self.laser_bricks.add(las_img)
 
+    def level_2(self):
+        for r in range(2):
+            for i in range(13):
+                brick_img = brick.Brick((i * 64) + 10, (r * 32 + 60), img_path=constants.BLUE_DIR)
+                self.brick_sprite.add(brick_img)
 if __name__ == "__main__":
     pg.init()
     screen = constants.SCREEN

@@ -22,7 +22,7 @@ class Ball(pg.sprite.Sprite):
         self.rect.y += self.speedy
 
     def check_walls(self):
-        if self.rect.x >= 1265 or self.rect.x <= 0:
+        if self.rect.x >= 790 or self.rect.x <= 0:
             self.speedx *= -1
 
         if pg.sprite.collide_rect(self, self.player):
@@ -31,7 +31,8 @@ class Ball(pg.sprite.Sprite):
         if self.rect.y < 0:
             self.speedy *= -1
 
-        if self.rect.y > 700:
+        if self.rect.y > 600:
+            self.player.is_dead = True
             self.rect.x = 400
             self.rect.y = 300
 

@@ -17,8 +17,13 @@ class Player(pg.sprite.Sprite):
         self.can_shoot = False
         self.shoot_var = 0
 
+        self.is_dead = False
+        self.lives = 3
+        self.game_over = False
+
     def update(self):
         self.speedx = 0
+        self.check_death()
         keystate = pg.key.get_pressed()
         if keystate[pg.K_LEFT]:
             self.speedx = -7
@@ -42,6 +47,13 @@ class Player(pg.sprite.Sprite):
             constants.bullet_sprites.add(bullet)
             bullet = Bullet(self.rect.x + 150, self.rect.y)
             constants.bullet_sprites.add(bullet)
+
+    def check_death(self):
+        if self.is_dead == True:
+            self.lives -= 1
+            self.is_dead = False
+        if self.lives == 0:
+            self.game_over = True
 
 
 class Bullet(pg.sprite.Sprite):

@@ -2,8 +2,8 @@ import pygame as pg
 import os
 
 """HARDCODED CONSTANTS"""
-WIDTH = 1280
-HEIGHT = 700
+WIDTH = 800
+HEIGHT = 600
 FPS = 60
 SCREEN = pg.display.set_mode((WIDTH, HEIGHT))
 
